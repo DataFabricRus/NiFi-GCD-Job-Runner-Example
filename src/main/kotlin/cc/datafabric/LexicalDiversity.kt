@@ -3,10 +3,15 @@ package cc.datafabric
 import org.apache.beam.sdk.Pipeline
 import org.apache.beam.sdk.io.TextIO
 import org.apache.beam.sdk.transforms.DoFn
-import org.apache.beam.sdk.transforms.GroupByKey
+import org.apache.beam.sdk.transforms.Mean
 import org.apache.beam.sdk.transforms.ParDo
 import org.apache.beam.sdk.values.KV
 
+/**
+ * Compute lexical diversity or type-token ratio (TTR): TTR = unique tokens/total number of tokens
+ *
+ * see https://en.wikipedia.org/wiki/Lexical_diversity
+ */
 fun main(args: Array<String>) {
 
     val options = DataFlowDefaultOptionsBuilder.build(args)
@@ -21,21 +26,19 @@ fun main(args: Array<String>) {
                 .from(options.getSource())
         )
         .apply(
-            ParDo.of(object : DoFn<String, KV<String, String>>() {
+            ParDo.of(object : DoFn<String, KV<String, Int>>() {
                 @ProcessElement
                 fun processElement(c: ProcessContext) {
                     val elements = c.element().split("/")
-
-                    c.output(KV.of(elements[0], elements[1]))
+                    c.output(KV.of(elements[0], elements[2].toInt()))
                 }
             }))
-        .apply(GroupByKey.create())
+        .apply(Mean.perKey<String, Int>())
         .apply(
-            ParDo.of(object : DoFn<KV<String, Iterable<@kotlin.jvm.JvmSuppressWildcards String>>, String>() {
+            ParDo.of(object : DoFn<KV<String, Double>, String>() {
                 @ProcessElement
                 fun processElement(c: ProcessContext) {
-                    val element = c.element()
-                    c.output("""${element.key} - ${element.value.toList().size}""")
+                    c.output("${c.element().key } TTR = ${(1.0).div(c.element().value)}")
                 }
             }))
         .apply(

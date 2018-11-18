@@ -11,11 +11,18 @@ import org.apache.beam.sdk.transforms.ParDo
 import org.apache.beam.sdk.util.GcsUtil
 import org.apache.beam.sdk.util.gcsfs.GcsPath
 import org.apache.beam.sdk.values.KV
+import org.tartarus.Stemmer
 import java.nio.channels.Channels
 import java.util.Scanner
 
 val gcsFactory = GcsUtil.GcsUtilFactory()
 
+/**
+ * Count unique tokens (word stems). To compute a word stem Porter stemmer is used @see Stemmer
+ *
+ * NOTE: No parts of a sentences are filtered: articles, initials and so on will be left in a text
+ *
+ */
 fun main(args: Array<String>) {
     val options = DataFlowDefaultOptionsBuilder.build(args)
     options.jobName = "build-vocabulary"
@@ -42,6 +49,7 @@ fun main(args: Array<String>) {
         .apply(
             ParDo
                 .of(object : DoFn<String, KV<KV<String, String>, String>>() {
+                    val stemmer = Stemmer()
                     @ProcessElement
                     fun processElement(c: ProcessContext) {
                         val path = c.element()
@@ -50,7 +58,10 @@ fun main(args: Array<String>) {
                         val inputStream = Channels.newInputStream(byteChannel)
                         val scanner = Scanner(inputStream).useDelimiter("[^A-Za-z]+")
                         while (scanner.hasNext()) {
-                            val word = scanner.next().toLowerCase()
+                            val wordArray = scanner.next().toLowerCase().toCharArray()
+                            stemmer.add(wordArray, wordArray.size)
+                            stemmer.stem()
+                            val word = String(stemmer.resultBuffer,0, stemmer.resultLength)
                             c.output(KV.of(KV.of(path.substringAfterLast("/"), word), word))
                         }
                     }
