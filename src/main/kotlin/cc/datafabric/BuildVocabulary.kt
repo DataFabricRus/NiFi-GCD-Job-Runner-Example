@@ -48,15 +48,11 @@ fun main(args: Array<String>) {
                         val gcsUtil = gcsFactory.create(c.pipelineOptions)
                         val byteChannel = gcsUtil.open(GcsPath.fromUri(path))
                         val inputStream = Channels.newInputStream(byteChannel)
-                        val scanner = Scanner(inputStream)
+                        val scanner = Scanner(inputStream).useDelimiter("[^A-Za-z]+")
                         while (scanner.hasNext()) {
-                            val word = scanner
-                                .next()
-                                .replace("[^A-Za-z]".toRegex(), "")
-                                .toLowerCase()
+                            val word = scanner.next().toLowerCase()
                             c.output(KV.of(KV.of(path.substringAfterLast("/"), word), word))
                         }
-
                     }
                 })
         )
