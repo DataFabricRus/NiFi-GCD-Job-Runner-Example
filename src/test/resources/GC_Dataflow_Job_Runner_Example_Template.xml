@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.2">
-    <description></description>
+    <description>The example for checking GC Dataflow Job Runner functionality</description>
     <groupId>1756f4cc-0167-1000-7f06-71b11e7d42ab</groupId>
     <name>GC Dataflow Job Runner Example Template</name>
     <snippet>
@@ -980,7 +980,7 @@ SAY ON SLACK</label>
             <bundle>
                 <artifact>nifi-gcd-nar</artifact>
                 <group>cc.datafabric.nifi</group>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0</version>
             </bundle>
             <config>
                 <bulletinLevel>WARN</bulletinLevel>
@@ -1121,7 +1121,7 @@ SAY ON SLACK</label>
             <bundle>
                 <artifact>nifi-gcd-nar</artifact>
                 <group>cc.datafabric.nifi</group>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0</version>
             </bundle>
             <config>
                 <bulletinLevel>WARN</bulletinLevel>
@@ -1206,11 +1206,11 @@ SAY ON SLACK</label>
                     </entry>
                     <entry>
                         <key>job-name</key>
-                        <value>investigate-vocabulary-diversity</value>
+                        <value>compute-lexical-diversity</value>
                     </entry>
                     <entry>
                         <key>gcs-path</key>
-                        <value>path to "investigate-vocabulary-diversity" job template</value>
+                        <value>path to "compute-lexical-diversity" job template</value>
                     </entry>
                     <entry>
                         <key>validate-only</key>
@@ -1608,5 +1608,5 @@ SAY ON SLACK</label>
             <type>org.apache.nifi.processors.standard.EvaluateJsonPath</type>
         </processors>
     </snippet>
-    <timestamp>11/15/2018 17:10:56 MSK</timestamp>
+    <timestamp>11/20/2018 17:07:08 MSK</timestamp>
 </template>
