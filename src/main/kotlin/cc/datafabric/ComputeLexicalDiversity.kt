@@ -15,7 +15,7 @@ import org.apache.beam.sdk.values.KV
 fun main(args: Array<String>) {
 
     val options = DataFlowDefaultOptionsBuilder.build(args)
-    options.jobName = "investigate-vocabulary-diversity"
+    options.jobName = "compute-lexical-diversity"
     options.templateLocation =
 
     val p = Pipeline.create(options)
