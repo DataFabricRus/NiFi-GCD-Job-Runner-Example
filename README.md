@@ -47,4 +47,5 @@ The flow specifies the following processing:
 1. List text file names stored in GC Storage on the given path
 1. For each text file a stem vocabulary is builded with [BuildVocabulary](https://github.com/DataFabricRus/NiFi-GCD-Job-Runner-Example/blob/master/src/main/kotlin/cc/datafabric/BuildVocabulary.kt) job
 1. For each vocabulary a TTR is computed with [ComputeLexicalDiversity](https://github.com/DataFabricRus/NiFi-GCD-Job-Runner-Example/blob/master/src/main/kotlin/cc/datafabric/ComputeLexicalDiversity.kt) job
+
 While calling GC Dataflow jobs special notifications of job statuses are generated. They are passed to the specified Slack channel
