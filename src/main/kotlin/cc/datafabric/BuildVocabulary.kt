@@ -61,7 +61,7 @@ fun main(args: Array<String>) {
                             val wordArray = scanner.next().toLowerCase().toCharArray()
                             stemmer.add(wordArray, wordArray.size)
                             stemmer.stem()
-                            val word = String(stemmer.resultBuffer,0, stemmer.resultLength)
+                            val word = String(stemmer.resultBuffer, 0, stemmer.resultLength)
                             c.output(KV.of(KV.of(path.substringAfterLast("/"), word), word))
                         }
                     }

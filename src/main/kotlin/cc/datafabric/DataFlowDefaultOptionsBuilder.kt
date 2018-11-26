@@ -8,7 +8,6 @@ object DataFlowDefaultOptionsBuilder {
     fun build(args: Array<String>): PipelineOptions{
         val options = PipelineOptionsFactory.fromArgs(*args).`as`(PipelineOptions::class.java)
         options.runner = DataflowRunner::class.java
-        options.tempLocation =
         options.project =
         options.region = "europe-west1"
         options.stagingLocation =
